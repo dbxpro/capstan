@@ -1,0 +1,29 @@
+{
+  "name": "capstan",
+  "version": "1.0.0",
+  "description": "capstan",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node src/index.ts",
+    "lint": "eslint ."
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "daemon": "^1.1.0",
+    "express": "^4.19.2",
+    "mysql": "^2.18.1",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.12",
+    "@typescript-eslint/eslint-plugin": "7.17.0",
+    "@typescript-eslint/parser": "7.17.0",
+    "eslint": "8.57.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}

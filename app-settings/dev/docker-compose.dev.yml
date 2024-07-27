@@ -1,0 +1,64 @@
+version: '3.1'
+
+services:
+  capstan_backend:
+    depends_on:
+      - erp_db
+    build:
+      context: ../../
+      dockerfile: ./app-settings/dev/Dockerfile.dev
+    image: capstan_backend
+    container_name: capstan_backend
+    working_dir: /app/capstan
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MYSQL_USERNAME: $MYSQL_USERNAME
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_HOSTNAME: $MYSQL_HOST
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      APP_PORT: $APP_PORT
+    ports:
+      - '8000:8000'
+    volumes:
+      - ../../:/app/capstan
+    networks:
+      - app-network
+    command: sh ./scripts/wait-for.sh erp_db:3306 -- npm run dev
+
+  erp_db:
+    image: mysql:5.7.27
+    container_name: erp_db
+    restart: always
+    logging:
+      driver: local
+    env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_USER: $MYSQL_USERNAME
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_ROOT_HOST: '%'
+      TZ: Etc/Greenwich
+    ports:
+      - '3300:3306'
+    expose:
+      - '3306'
+    volumes:
+      - dbdata:/var/lib/mysql
+    command:
+      [
+        'mysqld',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci',
+      ]
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  node_modules:
