@@ -1,1 +1,1 @@
-export { testTenantProvider } from './src/provider/tenant.provider'
+export { getUserByUserID } from './src/provider/user.provider';

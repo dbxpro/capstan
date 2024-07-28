@@ -1,20 +1,17 @@
 import express from 'express';
-import { testTenantProvider } from './components/component-tenant/index';
 import { AppDataSource } from './services/service-data-source/index';
 
 const app = express();
-const port = 3000;
-
-app.get('/', (_, res) => {
-  res.send('capstan project');
-});
-
-app.listen(port, () => {
-  console.log('server is running' + testTenantProvider());
-});
+const port = 8000;
 
 AppDataSource.initialize()
   .then(async () => {
-    console.log('success');
+    app.get('/', (_, res) => {
+      res.send('capstan project');
+    });
+
+    app.listen(port, async () => {
+      console.log(`server is running at port: ${port}`);
+    });
   })
   .catch((error) => console.log('data initialize error: ', error));

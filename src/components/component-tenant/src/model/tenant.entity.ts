@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import User from './user.entity';
 export type TENANT_STATUS = 'ACTIVE' | 'INACTIVE' | 'PENDING';
 
 @Entity()
@@ -53,4 +54,7 @@ export default class Tenant {
 
   @Column('text', { nullable: true })
   public note: string | undefined;
+
+  @OneToMany(() => User, (user) => user.tenant)
+  user: User[] | undefined;
 }

@@ -18,7 +18,7 @@ export const AppDataSource = new DataSource({
 
   synchronize: true,
   logging: false,
-  entities: ['./src/models/**/*.ts', './src/**/src/models/*.ts'],
+  entities: ['./src/**/**/src/model/*.ts'],
 });
 
 export function getRepository<Entity extends ObjectLiteral>(
