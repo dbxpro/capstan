@@ -3,9 +3,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import Tenant from './tenant.entity';
+import UserPermission from './user-permission.entity';
+import UserConfiguration from './user-config.entity';
 
 export type USER_STATUS = 'ACTIVE' | 'LEAVE' | 'SUSPENDED' | 'INACTIVE';
 
@@ -58,6 +60,11 @@ export default class User {
   public modifyBy: number | undefined;
 
   @ManyToOne(() => Tenant, (tenant) => tenant.user, { cascade: true })
-  @JoinColumn()
   public tenant: Tenant | undefined;
+
+  @OneToMany(() => UserPermission, (permissions) => permissions.user)
+  public permissions: UserPermission[] | undefined;
+
+  @OneToMany(() => UserConfiguration, (configurations) => configurations.user)
+  public configurations: UserConfiguration[] | undefined;
 }
