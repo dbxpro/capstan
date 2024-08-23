@@ -4,8 +4,8 @@ RUN mkdir -p /app/capstan
 
 COPY . /app/capstan
 
-# WORKDIR /app/capstan
+WORKDIR /app/capstan
 
-RUN chmod +x /scripts/wait-for.sh
+RUN chmod +x ./scripts/wait-for.sh
 
 EXPOSE 8000

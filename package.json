@@ -12,13 +12,16 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
+    "capstan": "file:",
     "daemon": "^1.1.0",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.12",
     "@typescript-eslint/eslint-plugin": "7.17.0",
     "@typescript-eslint/parser": "7.17.0",

@@ -9,4 +9,8 @@ export enum RESPONSE_STATUS {
   SUCCESS,
   // eslint-disable-next-line no-unused-vars
   FAILED,
+  // eslint-disable-next-line no-unused-vars
+  UNAUTHORIZED,
+  // eslint-disable-next-line no-unused-vars
+  MISMATCH,
 }

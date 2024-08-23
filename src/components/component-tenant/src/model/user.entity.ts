@@ -4,11 +4,12 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 import Tenant from './tenant.entity';
 import UserPermission from './user-permission.entity';
 import UserConfiguration from './user-config.entity';
-
+import UserInformation from './user-information.entity';
 export type USER_STATUS = 'ACTIVE' | 'LEAVE' | 'SUSPENDED' | 'INACTIVE';
 
 @Entity()
@@ -35,7 +36,7 @@ export default class User {
   public managerID: number | undefined;
 
   @Column('varchar', { length: 50 })
-  public primaryPhoneNumber: number | undefined;
+  public primaryPhoneNumber: string | undefined;
 
   @Column('text', { nullable: true })
   public note: string | undefined;
@@ -67,4 +68,7 @@ export default class User {
 
   @OneToMany(() => UserConfiguration, (configurations) => configurations.user)
   public configurations: UserConfiguration[] | undefined;
+
+  @OneToOne(() => UserInformation, (userInfo) => userInfo.user)
+  public userInfo: UserInformation | undefined;
 }
