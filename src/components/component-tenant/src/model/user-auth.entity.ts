@@ -1,5 +1,6 @@
-import { Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
+@Entity()
 @Unique('username_unique_constrains', ['userName'])
 export default class UserAuth {
   @PrimaryGeneratedColumn()

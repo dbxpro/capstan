@@ -24,7 +24,7 @@ services:
       - ../../:/app/capstan
     networks:
       - app-network
-    command: ./scripts/wait-for.sh erp_db:3306 -- npm run dev
+    command: sh ./scripts/wait-for.sh erp_db:3306 -- npm run dev
 
   erp_db:
     image: mysql:5.7.27

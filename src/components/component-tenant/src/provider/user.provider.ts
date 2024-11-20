@@ -6,7 +6,7 @@ import { RESPONSE_STATUS } from '../../../components-shared/index';
 
 export async function getUserByUserID(
   userID: number,
-  correlationID: string,
+  isActive: boolean = true,
   includeTenant: boolean = true,
   includePermission: boolean = true,
   includeConfig: boolean = true
@@ -17,7 +17,6 @@ export async function getUserByUserID(
     const user: User = await repo.findOneOrFail({
       where: {
         userID,
-        status: 'ACTIVE',
       },
       relations: {
         tenant: includeTenant,
@@ -26,13 +25,20 @@ export async function getUserByUserID(
       },
     });
 
+    if (isActive && user.status !== 'ACTIVE') {
+      return {
+        message: 'inactive user',
+        status: RESPONSE_STATUS.FAILED,
+      };
+    }
+
     return {
       data: user,
       status: RESPONSE_STATUS.SUCCESS,
     };
   } catch (error) {
     // todo logging the error
-    console.log(error, correlationID);
+    console.log(error);
   }
 
   return {
@@ -40,59 +46,35 @@ export async function getUserByUserID(
   };
 }
 
-export async function verifyCredentials(
+export async function getUserIDByCredentials(
   userName: string,
-  password: string,
-  correlationID: string
-): Promise<ResponseModel<boolean>> {
-  const repo = getRepository(UserAuth);
+  password: string
+): Promise<ResponseModel<number | undefined>> {
+  if (!userName || !password) {
+    return {
+      status: RESPONSE_STATUS.FAILED,
+    };
+  }
 
   try {
-    // todo
-    // decrypt username and pwd
-    // base64 decode
-    // private key encode
-    const userAuth = await repo.findOne({
+    const repo = getRepository(UserAuth);
+
+    const crendentials = await repo.findOne({
       where: {
         userName,
         password,
       },
     });
 
-    if (!userAuth?.userID) {
-      return {
-        status: RESPONSE_STATUS.FAILED,
-        message: 'credentials not match',
-        data: false,
-      };
-    }
-
-    const user = await getUserByUserID(
-      userAuth.userID,
-      correlationID,
-      false,
-      false,
-      false
-    );
-    if (!user.data || user.data?.status !== 'ACTIVE') {
-      return {
-        status: RESPONSE_STATUS.FAILED,
-        message: 'user is not active',
-        data: false,
-      };
-    }
-
     return {
       status: RESPONSE_STATUS.SUCCESS,
-      data: true,
+      data: crendentials?.userID,
     };
   } catch (error) {
-    // todo logging the error
-    console.log(error, correlationID);
+    console.log(error);
   }
 
   return {
-    data: false,
     status: RESPONSE_STATUS.FAILED,
   };
 }

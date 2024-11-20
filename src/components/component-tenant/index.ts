@@ -1,4 +1,4 @@
 export {
   getUserByUserID,
-  verifyCredentials,
+  getUserIDByCredentials,
 } from './src/provider/user.provider';
